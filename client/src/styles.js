@@ -11,6 +11,7 @@ export default makeStyles(() => ({
   },
   heading: {
     color: '#228C22',
+    fontFamily: 'Montserrat'
   },
   image: {
     marginLeft: '15px',
