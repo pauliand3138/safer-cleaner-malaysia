@@ -44,6 +44,9 @@ export default makeStyles({
   title: {
     padding: '0 16px',
   },
+  message: {
+    fontSize: '1em',
+  },
   cardActions: {
     padding: '0 16px 8px 16px',
     display: 'flex',
