@@ -7,9 +7,9 @@ const postSchema = mongoose.Schema({
     creator: String,
     category: String,
     selectedFile: String,
-    upvoteCount: {
-        type: Number,
-        default: 0
+    upvotes: {
+        type: [String],
+        default: [],
     },
     createdAt: {
         type: Date,
