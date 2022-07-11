@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
 import { GoogleOAuthProvider } from '@react-oauth/google';  
 import { GoogleLogin } from '@react-oauth/google';  
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import jwt_decode from "jwt-decode";
 
 import Icon from './icon';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -12,6 +15,8 @@ const Auth = () => {
     const classes = useStyles();
     const [showPassword, setShowPassword] = useState(false);
     const [isSignup, setIsSignup] = useState(false);
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     const handleSubmit = () => {
 
@@ -31,7 +36,16 @@ const Auth = () => {
     };
 
     const googleSuccess = async (res) => {
-        console.log(res);
+        const result = jwt_decode(res?.credential);
+        const token = res?.credential;
+        
+        try {
+            dispatch({ type: 'AUTH', data: { result, token } });
+
+            history.push('/');
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const googleFailure = (error) => {
@@ -62,18 +76,6 @@ const Auth = () => {
                     <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                         { isSignup ? 'Sign Up' : 'Sign In' }
                     </Button>
-                    {/* <GoogleLogin 
-                        clientId="802921324162-uqug93tf3d18l3666814vd1c11gjsg3v.apps.googleusercontent.com"
-                        render={(renderProps) => (
-                            <Button className={classes.googleButton}  color="primary"  fullWidth  onClick={renderProps.onClick}  disabled={renderProps.disabled}  startIcon={<Icon/>}  variant="contained"
-                             >
-                                Google Sign In
-                             </Button>
-                        )}
-                        onSuccess={googleSuccess}
-                        onFailure={googleFailure}
-                        cookiePolicy="single_host_origin"
-                    /> */}
                     <GoogleOAuthProvider clientId="802921324162-uqug93tf3d18l3666814vd1c11gjsg3v.apps.googleusercontent.com">
                     <GoogleLogin 
                         render={(renderProps) => (

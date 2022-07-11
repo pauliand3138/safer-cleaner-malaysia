@@ -7,7 +7,7 @@ import Home from './components/Home/Home';
 import Auth from './components/Auth/Auth';
 
 const App = () => {
-
+    
     return (
         <BrowserRouter>
             <Container maxwidth="lg">
