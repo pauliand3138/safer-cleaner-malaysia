@@ -12,6 +12,20 @@ import { deletePost, likePost } from '../../../actions/posts';
 const Post = ({ post, setCurrentId }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const user = JSON.parse(localStorage.getItem('profile'));
+
+    const Upvotes = () => {
+        if (post.upvotes.length > 0) {
+            return post.upvotes.find((upvote) => upvote === (user?.result?.googleId || user?.result?._id))
+            ? (
+                <><ArrowDropUpIcon fontSize="medium"/>&nbsp;{post.upvotes.length > 2 ? `You and ${post.upvotes.length - 1} others` : `${post.upvotes.length} upvote${post.upvotes.length > 1 ? 's' : ''}`}</>
+            ) : (
+                <><ArrowDropUpIcon fontSize="small"/>&nbsp;{post.upvotes.length} {post.upvotes.length === 1 ? 'Upvote' : 'Upvotes'}</> 
+            );
+        }
+        
+        return <><ArrowDropUpIcon fontSize="small"/>&nbsp;Upvote</>;
+    }
 
     return (
         <Card className={classes.card}>
@@ -36,10 +50,8 @@ const Post = ({ post, setCurrentId }) => {
                 <Typography variant="body2" color="textSecondary" component="p">{post.message}</Typography>
             </CardContent>
             <CardActions className={classes.cardActions}>
-                <Button size="small" color="primary" onClick={() => dispatch(likePost(post._id))}>
-                    <ArrowDropUpIcon fontSize="small"/>
-                    &nbsp; Upvote &nbsp;
-                    {post.upvoteCount}
+                <Button size="small" color="primary" disabled={!user?.result} onClick={() => dispatch(likePost(post._id))}>
+                    <Upvotes/>
                 </Button>
                 <Button size="small" color="primary" onClick={() => dispatch(deletePost(post._id))}>
                     <DeleteIcon fontSize="small"/>
