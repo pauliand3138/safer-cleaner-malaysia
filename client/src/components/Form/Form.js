@@ -59,7 +59,7 @@ const Form = ({ currentId, setCurrentId }) => {
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={postData.category}
-                        label="Age"
+                        label="Category"
                         onChange={(e) => setPostData({ ...postData, category: e.target.value })}
                     >
                         <MenuItem value={"Road"}>Road</MenuItem>
