@@ -98,7 +98,7 @@ const Auth = () => {
                         onFailure={googleFailure}   
                         cookiePolicy="single_host_origin"  
                     />
-                </GoogleOAuthProvider>
+                    </GoogleOAuthProvider>
                     <Grid container justifyContent="flex-end">
                         <Grid item>
                             <Button onClick={switchMode}>
