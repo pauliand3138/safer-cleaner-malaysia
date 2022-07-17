@@ -4,14 +4,14 @@ import { TextField, Button, Typography, Paper, Select, MenuItem, InputLabel, For
 import { useDispatch, useSelector } from 'react-redux';
 
 import useStyles from './styles';
-import { createPost, updatePost } from '../../actions/posts';
+import { createPost, updatePost, getPosts } from '../../actions/posts';
 
 
 // Get current post ID
 
 const Form = ({ currentId, setCurrentId }) => {
     const [postData, setPostData] = useState({ title: '', address: '', message: '', category: 'Road', selectedFile: ''});
-    const post = useSelector((state) => currentId ? state.posts.find((p) => p._id === currentId) : null);
+    const post = useSelector((state) => currentId ? state.posts.posts.find((p) => p._id === currentId) : null);
     const classes = useStyles();
     const dispatch = useDispatch();
     const user = JSON.parse(localStorage.getItem('profile'));
@@ -27,6 +27,7 @@ const Form = ({ currentId, setCurrentId }) => {
             dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));
         } else {
             dispatch(createPost({ ...postData, name: user?.result?.name }));
+            dispatch(getPosts());
         }
         clear();
     }
@@ -47,7 +48,7 @@ const Form = ({ currentId, setCurrentId }) => {
     }
 
     return (
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} elevation={6}>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
             <Typography variant="h6">{ currentId ? 'Edit' : 'Lodge' } a Report</Typography>
             <TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })}/>

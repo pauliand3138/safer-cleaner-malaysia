@@ -24,9 +24,9 @@ const Home = () =>  {
     const [search, setSearch] = useState('');
     const [category, setCategory] = useState('');
 
-    useEffect(() => {
-        dispatch(getPosts());
-    }, [currentId, dispatch]);
+    // useEffect(() => {
+    //     dispatch(getPosts());
+    // }, [currentId]);
 
     const searchReport = () => {
         if (search.trim() || category) {
@@ -80,9 +80,11 @@ const Home = () =>  {
                         <Button onClick={searchReport} className={classes.searchButton} color="primary" variant="contained">Search</Button>
                     </AppBar>
                         <Form currentId={currentId} setCurrentId={setCurrentId}/>
-                        <Paper elevation={6}>
-                            <Pagination />
-                        </Paper>
+                        {(!searchQuery && !category.length) && (
+                            <Paper elevation={6} className={classes.pagination}>
+                                <Pagination page={page}/>
+                            </Paper>
+                        )}
                     </Grid>
                 </Grid>
             </Container>

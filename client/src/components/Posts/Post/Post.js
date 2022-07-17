@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+import PublishIcon from '@material-ui/icons/Publish';
+import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
@@ -18,13 +19,13 @@ const Post = ({ post, setCurrentId }) => {
         if (post.upvotes.length > 0) {
             return post.upvotes.find((upvote) => upvote === (user?.result?.sub || user?.result?._id))
             ? (
-                <><ArrowDropUpIcon fontSize="medium"/>&nbsp;{post.upvotes.length > 2 ? `You and ${post.upvotes.length - 1} others` : `${post.upvotes.length} upvote${post.upvotes.length > 1 ? 's' : ''}`}</>
+                <><PublishIcon style={{ marginTop:"-3px" }}fontSize="small"/>&nbsp;{post.upvotes.length > 2 ? `You and ${post.upvotes.length - 1} others` : `${post.upvotes.length} upvote${post.upvotes.length > 1 ? 's' : ''}`}</>
             ) : (
-                <><ArrowDropUpIcon fontSize="small"/>&nbsp;{post.upvotes.length} {post.upvotes.length === 1 ? 'Upvote' : 'Upvotes'}</> 
+                <><PublishOutlinedIcon style={{ marginTop:"-3px" }} fontSize="small"/>&nbsp;{post.upvotes.length} {post.upvotes.length === 1 ? 'Upvote' : 'Upvotes'}</> 
             );
         }
         
-        return <><ArrowDropUpIcon fontSize="small"/>&nbsp;Upvote</>;
+        return <><PublishOutlinedIcon style={{ marginTop:"-3px" }} fontSize="small"/>&nbsp;Upvote</>;
     }
 
     return (
