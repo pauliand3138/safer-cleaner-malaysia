@@ -4,7 +4,8 @@ import { AppBar, Avatar, Typography, Toolbar, Button } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import decode from 'jwt-decode';
 import useStyles from './styles'
-import saferCleanerMalaysia from '../../images/malaysia-flag.png';
+import saferCleanerMalaysia from '../../images/safe-n-clean-malaysia-logo.png';
+import { relativeTimeRounding } from 'moment';
 
 const Navbar = () => {
     const classes = useStyles();
@@ -16,9 +17,10 @@ const Navbar = () => {
     const logout = () => {
         dispatch({ type: 'LOGOUT' });
 
-        history.push('/');
+        history.push('/auth');
 
         setUser(null);
+
     };
 
     useEffect(() => {
@@ -34,14 +36,13 @@ const Navbar = () => {
 
     return (
         <AppBar className={classes.appBar} position="static" color="inherit">
-            <div className={classes.brandContainer}>
-                <Typography component={Link} to="/" className={classes.heading} variant="h3" align="center">Safer Cleaner Malaysia</Typography>
-                <img className={classes.image} src={saferCleanerMalaysia} alt="safer cleaner malaysia" height="60" />
-            </div>
+            <Link to="/" className={classes.brandContainer}>
+                <img className={classes.image} src={saferCleanerMalaysia} alt="safer cleaner malaysia" height="80" />
+            </Link>
             <Toolbar className={classes.toolbar}>
                 {user ? (
                     <div className={classes.profile}>
-                        <Avatar className={classes.purple} alt={user.result.name} src={user.result.picture}>{user.result.name.charAt(0)}</Avatar>
+                        <Avatar className={classes.green} alt={user.result.name} src={user.result.picture}>{user.result.name.charAt(0)}</Avatar>
                         <Typography className={classes.userName} variant="h6">{user.result.name}</Typography>
                         <Button variant="contained" className={classes.logout} color="secondary" onClick={logout}>Logout</Button>
                     </div>

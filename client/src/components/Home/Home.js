@@ -31,6 +31,7 @@ const Home = () =>  {
     const searchReport = () => {
         if (search.trim() || category) {
             dispatch(getPostsBySearch({search, category}));
+            history.push(`/posts/search?searchQuery=${search || 'none'}&category=${category}`);
         } else {
             history.push('/');
         }
