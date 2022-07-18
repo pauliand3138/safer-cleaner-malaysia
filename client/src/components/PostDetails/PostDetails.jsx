@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useParams, useHistory } from 'react-router-dom';
 
-import { getPost } from '../../actions/posts';
+import { getPost, getPostsBySearch } from '../../actions/posts';
 import useStyles from './styles';
 
 const PostDetails = () => {
@@ -19,6 +19,12 @@ const PostDetails = () => {
 
     },[id]); 
 
+    useEffect(() => {
+        if (post) {
+            dispatch(getPostsBySearch({ search: 'none', category: post?.category}));
+        }
+    }, [post]);
+
     if(!post) return null;
 
     if(isLoading) {
@@ -29,6 +35,15 @@ const PostDetails = () => {
         );   
     }
 
+    const similarPosts = posts.filter(({ _id }) => _id !== post._id);
+
+    const openPost = (_id) => {
+        history.push(`/posts/${_id}`);
+    };
+
+    console.log(post.address);
+    const mapAddress = post.address.replace(/ /g, "+");
+    console.log(mapAddress);
     return (
         <Paper style={{padding: '20px', borderRadius: '15px' }} elevation={6}>
             <div className={classes.card}>
@@ -43,11 +58,38 @@ const PostDetails = () => {
                     <Divider style={{ margin: '20px 0' }} />
                     <Typography variant="body1"><strong>Comments - coming soon!</strong></Typography>
                     <Divider style={{ margin: '20px 0' }} />
+                    <iframe
+                        width="450"
+                        height="250"
+                        frameBorder={0} style={{ border: "0" }}
+                        referrerPolicy="no-referrer-when-downgrade"
+                        src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyB65pbvfcLtbLDv26720v5TbxE_WGpx3oc&q=${mapAddress}`}
+                        allowFullScreen>
+                    </iframe>
                 </div>
                 <div className={classes.imageSection}>
                     <img className={classes.media} src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} elevation={6}/>
                 </div>
         </div>
+        {similarPosts.length && (
+            <div className={classes.section}>
+                <Typography gutterBottom variant="h5">Similar Reports: </Typography>
+                <Divider/>
+                <div className={classes.similarPosts}>
+                    {similarPosts.slice(0, 5).map(({ title, message, name, upvotes, selectedFile, _id }) => {
+                        return (
+                            <div style={{ margin: '20px', cursor: "pointer" }} onClick={() => openPost(_id)} key={_id}>
+                                <Typography gutterBottom variant="h6">{title}</Typography>
+                                <Typography gutterBottom variant="subtitle2">{name}</Typography>
+                                <Typography gutterBottom variant="subtitle2">{message}</Typography>
+                                <Typography gutterBottom variant="subtitle1">Upvotes: {upvotes.length}</Typography>
+                                <img src={selectedFile} width="200px"/>
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
+        )}
       </Paper>
     ) 
 }
