@@ -53,7 +53,9 @@ const Form = ({ currentId, setCurrentId }) => {
             <Typography variant="h6">{ currentId ? 'Edit' : 'Lodge' } a Report</Typography>
             <TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })}/>
             <TextField name="message" variant="outlined" label="Message" fullWidth value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })}/>
-            <TextField name="address" variant="outlined" label="Address" fullWidth value={postData.address} onChange={(e) => setPostData({ ...postData, address: e.target.value })}/>
+            <Autocomplete>
+                <TextField name="address" variant="outlined" label="Address" fullWidth value={postData.address} onChange={(e) => setPostData({ ...postData, address: e.target.value })}/>
+            </Autocomplete> 
             <FormControl variant="outlined" fullWidth>
                 <InputLabel id="demo-simple-select-label">Category</InputLabel>
                     <Select
